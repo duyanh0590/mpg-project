@@ -1,0 +1,10 @@
+﻿Vấn đề,Cách xử lý,Lý do,Kiểm chứng
+Giá trị thiếu (horsepower: 6 mẫu),"Điền trung vị tính trên tập huấn luyện (95,0), nằm trong Pipeline","Lệch phải (skew 1,04) nên trung vị bền hơn trung bình; dữ liệu ít nên không xóa dòng",Trung bình 105.95 -> 105.77; độ lệch chuẩn 39.09 -> 38.80; trung vị giữ 95.0
+"Ngoại lai (mpg 1, horsepower 10, acceleration 7)",Giữ nguyên,"Là xe thật, nằm ở hai đầu miền giá trị; Ridge và chuẩn hóa kiểm soát ảnh hưởng","Ngoại lai theo ngưỡng tính từ huấn luyện: horsepower 7/1, acceleration 8/2 (huấn luyện/kiểm tra)"
+Bản ghi trùng,Không có dòng trùng nên không xử lý,"0 dòng trùng hoàn toàn, 0 dòng trùng khi bỏ cột name",duplicated() = 0
+Sai định dạng,Không có nên không xử lý,"Cột số đúng kiểu số, không có giá trị không hợp lý",Đã kiểm tra ở notebook 01
+Tên xe lặp (93 dòng) và nguy cơ rò rỉ do name,Gom theo name khi chia tập; không dùng name làm đặc trưng,Tránh cùng một kiểu xe nằm ở cả hai tập,Tên xe chung giữa hai tập: 0
+"Mất cân bằng origin, cylinders hiếm",Chia phân tầng theo origin; cylinders giữ dạng số,Giữ tỷ lệ xuất xứ ở hai tập; one-hot cylinders tạo cột gần toàn 0,"usa 62,6% / 62,5%; 3 và 5 xi-lanh: 5 mẫu huấn luyện, 2 mẫu kiểm tra"
+Biến phân loại origin,One-hot 3 cột,Không có thứ tự tự nhiên giữa các xuất xứ,X_train có 9 cột
+"Khác thang đo, lệch phân phối",StandardScaler fit trên tập huấn luyện,Ridge và KNN nhạy với thang đo,"Huấn luyện: TB 0, độ lệch chuẩn 1; kiểm tra: TB khoảng −0,2 (không rò rỉ)"
+Đa cộng tuyến (VIF 9–20),Chưa xử lý ở bước này,Xử lý bằng Ridge và chọn tập đặc trưng ở Chương 3,VIF từ notebook 01

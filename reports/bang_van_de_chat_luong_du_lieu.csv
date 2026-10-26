@@ -1,0 +1,9 @@
+﻿Vấn đề,Cách kiểm tra,Kết quả định lượng
+Giá trị thiếu,isna(),horsepower: 6/398 (1.5%) – các cột khác không thiếu
+Bản ghi trùng,duplicated(),0 dòng trùng hoàn toàn; 0 dòng trùng khi bỏ cột name; 93 dòng lặp lại tên xe (khác năm/cấu hình)
+"Ngoại lai (IQR × 1,5)","Q1 − 1,5·IQR, Q3 + 1,5·IQR",mpg: 1; horsepower: 10; acceleration: 7 – các cột còn lại: 0
+Sai định dạng,"kiểu dữ liệu, miền giá trị",cột số đúng kiểu số: True; mpg ≤ 0: 0; weight ≤ 0: 0; name có khoảng trắng thừa: 0
+Mất cân bằng nhóm,value_counts(),"origin: usa 62.6%, japan 19.8%, europe 17.6%; cylinders 3 và 5 chỉ có 7 mẫu; mpg là biến liên tục (không có lớp nhãn)"
+Lệch phân phối / khác thang đo,"skew(), describe()",horsepower skew 1.09; displacement 0.72; weight ~10³ so với acceleration ~10¹
+Đa cộng tuyến,VIF,"cylinders 10.6, displacement 19.7, horsepower 9.0, weight 10.5 (> 5)"
+Nguy cơ rò rỉ dữ liệu,xem xét quy trình,"(1) điền thiếu/chuẩn hóa/sinh đa thức trên toàn bộ dữ liệu trước khi chia; (2) cột name: 93 tên lặp có thể nằm ở cả hai tập; (3) model_year có thứ tự thời gian, chia ngẫu nhiên cho phép 'nhìn thấy' các năm sau"
