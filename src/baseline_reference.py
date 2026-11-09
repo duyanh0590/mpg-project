@@ -8,20 +8,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from sklearn.dummy import DummyRegressor
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import StratifiedGroupKFold, cross_validate
 from sklearn.pipeline import make_pipeline
 
-from data import CAT, NUM, SEED, TARGET, split
+from data import CAT, NUM, TARGET, split
+from evaluate import cv_folds, cv_score, fmt
 from preprocess import build_preprocessor
 
 train, test = split()
-X, y, groups = train[NUM + CAT], train[TARGET], train["name"]
+X, y = train[NUM + CAT], train[TARGET]
 print("train/test:", len(train), len(test))
 
 # CV cũng gom theo name để không có cùng tên xe ở cả phần huấn luyện và phần kiểm định
-cv = StratifiedGroupKFold(5, shuffle=True, random_state=SEED)
-folds = list(cv.split(X, train["origin"], groups))
-metrics = {"RMSE": "neg_root_mean_squared_error", "MAE": "neg_mean_absolute_error", "R2": "r2"}
+folds = cv_folds(train)
 for name, model in [("Trung bình", DummyRegressor()), ("Hồi quy tuyến tính", LinearRegression())]:
-    r = cross_validate(make_pipeline(build_preprocessor(), model), X, y, cv=folds, scoring=metrics)
-    print(name, {k: f"{abs(r['test_' + k].mean()):.2f} ± {r['test_' + k].std():.2f}" for k in metrics})
+    s = cv_score(make_pipeline(build_preprocessor(), model), X, y, folds)
+    print(name, {k: fmt(s[f"{k}_cv"], s[f"{k}_cv_std"]) for k in ("RMSE", "MAE", "R2")})

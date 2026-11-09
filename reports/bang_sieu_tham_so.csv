@@ -1,0 +1,5 @@
+Mô hình,Số tổ hợp thử,Siêu tham số tốt nhất,RMSE CV tốt nhất
+Ridge,39,"{'degree': 3, 'alpha': np.float64(0.0031622776601683794)}",2.6834913423960565
+KNN,14,"{'n_neighbors': 9, 'weights': 'distance'}",2.9228792466753526
+RF,18,"{'max_depth': None, 'max_features': 1.0, 'min_samples_leaf': 1}",2.8606432624732565
+GB,36,"{'learning_rate': 0.03, 'max_depth': 2, 'n_estimators': 600, 'subsample': 1.0}",2.7834470982071386
